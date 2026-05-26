@@ -1,0 +1,43 @@
+{
+  "id": "washer.balcony",
+  "type": "washing_machine",
+  "location": "balcony",
+  "risk_level": "medium",
+  "capabilities": [
+    {
+      "name": "pause",
+      "risk_level": "low",
+      "requires_confirmation": false
+    },
+    {
+      "name": "start",
+      "risk_level": "medium",
+      "requires_confirmation": true,
+      "preconditions": [
+        "door_locked",
+        "no_water_leak",
+        "quiet_hours_false",
+        "water_available"
+      ],
+      "parameters": {
+        "program": ["quick", "cotton", "wool", "dry"],
+        "max_runtime_minutes": 180
+      }
+    }
+  ],
+  "state": {
+    "power": "on",
+    "door": "locked",
+    "running": false,
+    "water_leak": false,
+    "remaining_minutes": null
+  },
+  "safety": {
+    "manual_override": true,
+    "child_lock": true,
+    "max_runtime_minutes": 180
+  },
+  "manual_override": true,
+  "audit_required": true
+}
+

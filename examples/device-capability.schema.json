@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/home-agent/device-capability.schema.json",
+  "title": "Home Agent Device Capability",
+  "type": "object",
+  "required": ["id", "type", "location", "risk_level", "capabilities", "state"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Stable device id, such as light.living_room_main."
+    },
+    "type": {
+      "type": "string",
+      "description": "Device category, such as light, climate, lock, washer, sensor."
+    },
+    "location": {
+      "type": "string",
+      "description": "Human-readable room or area."
+    },
+    "risk_level": {
+      "type": "string",
+      "enum": ["low", "medium", "high", "critical"]
+    },
+    "capabilities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "risk_level", "requires_confirmation"],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "risk_level": {
+            "type": "string",
+            "enum": ["low", "medium", "high", "critical"]
+          },
+          "requires_confirmation": {
+            "type": "boolean"
+          },
+          "preconditions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "parameters": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        }
+      }
+    },
+    "state": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "safety": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "manual_override": {
+      "type": "boolean",
+      "default": true
+    },
+    "audit_required": {
+      "type": "boolean",
+      "default": true
+    }
+  }
+}
+
