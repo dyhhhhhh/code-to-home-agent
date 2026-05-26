@@ -2,7 +2,9 @@
 
 把 code agent 的工作范式迁移到家庭环境，构建一个以本地大模型为中心、以安全硬件代理为边界的 home agent 设想。
 
-这个仓库不是一个已经可以直接接管家庭设备的产品，而是一份面向开源社区的技术路线草案。它试图回答一个问题：
+这个仓库不是一个已经可以直接接管家庭设备的产品，也不是另一个单纯的智能家居聊天控制插件，而是一份面向开源社区的技术路线草案。它关注更上层的问题：如何把 code agent 的观察、行动、验证循环迁移到家庭环境，并让真实家电在安全代理层、权限系统和状态验证闭环中被编排。
+
+它试图回答一个问题：
 
 > 如果 code agent 已经能阅读代码、调用工具、修改状态、验证结果，那么能不能把同样的 agent 思路改写成一个家庭智能体？
 
@@ -187,6 +189,7 @@ Home Assistant
 
 ## 目录
 
+- [docs/project-goals.md](docs/project-goals.md)：项目目标、非目标和差异化定位。
 - [docs/architecture.md](docs/architecture.md)：home agent 系统架构。
 - [docs/hardware-adaptation.md](docs/hardware-adaptation.md)：传统家电如何改造成 AI 可接入节点。
 - [examples/device-capability.schema.json](examples/device-capability.schema.json)：设备能力描述示例。
@@ -206,4 +209,3 @@ Home Assistant
 本仓库内容是架构和研究设想，不是电气施工指南。任何涉及市电、燃气、门锁、配电箱、厨房加热设备、医疗设备的改造，都应由具备资质的专业人员执行，并遵守当地法律法规和安规要求。
 
 home agent 的原则不是让 AI 强行接管家庭，而是让家庭设备在可授权、可验证、可解释、可接管的前提下协同工作。
-
