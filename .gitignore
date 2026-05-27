@@ -6,7 +6,8 @@ Thumbs.db
 
 # Local artifacts
 *.log
+__pycache__/
+runtime/examples/audit.log
 tmp/
 dist/
 build/
-

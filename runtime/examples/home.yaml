@@ -1,0 +1,159 @@
+home:
+  name: lab-home
+  default_user: owner
+
+policy:
+  audit_log: examples/audit.log
+  require_confirmation_for:
+    - high
+    - critical
+  deny_risk_levels:
+    - critical
+  quiet_hours:
+    start: "23:00"
+    end: "07:00"
+  allow_medium_without_confirmation_when:
+    presence_required: true
+
+rooms:
+  bedroom:
+    aliases:
+      - bedroom
+      - sleeping room
+    sensors:
+      temperature:
+        entity_id: sensor.bedroom_temperature
+        state: 29.2
+        unit: C
+      presence:
+        entity_id: binary_sensor.bedroom_presence
+        state: true
+      fan_power:
+        entity_id: sensor.bedroom_fan_power
+        state: 1.3
+        unit: W
+    devices:
+      fan:
+        aliases:
+          - fan
+          - bedroom fan
+        entity_id: switch.bedroom_fan
+        type: fan
+        risk_level: low
+        state: "off"
+        actions:
+          turn_on:
+            risk_level: low
+            requires_confirmation: false
+            service: switch.turn_on
+            verify:
+              sensor: fan_power
+              operator: ">"
+              value: 10
+              simulate_state: "on"
+              simulate_sensor_value: 35
+          turn_off:
+            risk_level: low
+            requires_confirmation: false
+            service: switch.turn_off
+            verify:
+              sensor: fan_power
+              operator: "<="
+              value: 5
+              simulate_state: "off"
+              simulate_sensor_value: 1.2
+      light:
+        aliases:
+          - light
+          - bedroom light
+        entity_id: light.bedroom_main
+        type: light
+        risk_level: low
+        state: "off"
+        actions:
+          turn_on:
+            risk_level: low
+            requires_confirmation: false
+            service: light.turn_on
+            verify:
+              state: "on"
+              simulate_state: "on"
+          turn_off:
+            risk_level: low
+            requires_confirmation: false
+            service: light.turn_off
+            verify:
+              state: "off"
+              simulate_state: "off"
+      air_conditioner:
+        aliases:
+          - ac
+          - air conditioner
+          - climate
+        entity_id: climate.bedroom_ac
+        type: climate
+        risk_level: medium
+        state: "off"
+        actions:
+          set_temperature:
+            risk_level: medium
+            requires_confirmation: false
+            service: climate.set_temperature
+            preconditions:
+              - presence
+            verify:
+              state: "on"
+              simulate_state: "on"
+
+  entry:
+    aliases:
+      - entry
+      - front door
+      - door
+    sensors:
+      door_locked:
+        entity_id: lock.front_door
+        state: true
+    devices:
+      front_door_lock:
+        aliases:
+          - lock
+          - front door
+          - front door lock
+        entity_id: lock.front_door
+        type: lock
+        risk_level: high
+        state: "locked"
+        actions:
+          unlock:
+            risk_level: high
+            requires_confirmation: true
+            service: lock.unlock
+            verify:
+              state: "unlocked"
+              simulate_state: "unlocked"
+
+  kitchen:
+    aliases:
+      - kitchen
+    sensors:
+      gas_alarm:
+        entity_id: binary_sensor.kitchen_gas_alarm
+        state: false
+    devices:
+      gas_valve:
+        aliases:
+          - gas
+          - gas valve
+        entity_id: valve.kitchen_gas
+        type: gas
+        risk_level: critical
+        state: "closed"
+        actions:
+          open:
+            risk_level: critical
+            requires_confirmation: true
+            service: valve.open_valve
+            verify:
+              state: "open"
+              simulate_state: "open"
