@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import re
+import os
 from pathlib import Path
 
 from reportlab.lib import colors
@@ -22,7 +23,7 @@ from reportlab.platypus import (
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / "docs" / "home-agent-whitepaper.md"
-TARGET = ROOT / "docs" / "home-agent-whitepaper.pdf"
+TARGET = ROOT / os.environ.get("HOME_AGENT_PDF_TARGET", "docs/home-agent-whitepaper.pdf")
 FONT_PATH = Path(r"C:\Windows\Fonts\msyh.ttc")
 FONT_NAME = "MicrosoftYaHei"
 
@@ -34,7 +35,7 @@ def register_font() -> None:
 def clean_inline(text: str) -> str:
     text = text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
     text = re.sub(r"\*\*(.+?)\*\*", r"<b>\1</b>", text)
-    text = re.sub(r"`([^`]+)`", r"<font name=\"Courier\">\1</font>", text)
+    text = re.sub(r"`([^`]+)`", rf"<font name=\"{FONT_NAME}\">\1</font>", text)
     return text
 
 
@@ -105,7 +106,7 @@ def make_styles():
         ),
         "code": ParagraphStyle(
             "CodeCN",
-            fontName="Courier",
+            fontName=FONT_NAME,
             fontSize=8.5,
             leading=12,
             leftIndent=0,
@@ -225,4 +226,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-
